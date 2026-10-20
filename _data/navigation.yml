@@ -1,0 +1,120 @@
+main_zh:
+  - title: "主页"
+    url: "#about-me"
+    section: "about-me"
+
+  - title: "联系方式"
+    url: "#contact"
+    section: "contact"
+
+  - title: "工作经历"
+    url: "#experience"
+    section: "experience"
+
+  - title: "教育经历"
+    url: "#educations"
+    section: "educations"
+
+  - title: "学术论文"
+    url: "#publications"
+    section: "publications"
+
+  - title: "项目经历"
+    url: "#projects"
+    section: "projects"
+
+  - title: "专利"
+    url: "#patents"
+    section: "patents"
+
+  - title: "学术服务"
+    url: "#services"
+    section: "services"
+
+  - title: "荣誉与奖励"
+    url: "#awards"
+    section: "awards"
+
+main_en:
+  - title: "Homepage"
+    url: "#about-me"
+    section: "about-me"
+
+  - title: "Contact"
+    url: "#contact"
+    section: "contact"
+
+  - title: "Work Experience"
+    url: "#experience"
+    section: "experience"
+
+  - title: "Education"
+    url: "#educations"
+    section: "educations"
+
+  - title: "Publications"
+    url: "#publications"
+    section: "publications"
+
+  - title: "Projects"
+    url: "#projects"
+    section: "projects"
+
+  - title: "Patents"
+    url: "#patents"
+    section: "patents"
+
+  - title: "Services"
+    url: "#services"
+    section: "services"
+
+  - title: "Awards"
+    url: "#awards"
+    section: "awards"
+
+# 保持向后兼容性的默认配置
+main:
+  - title: "About Me"
+    url: "#about-me"
+    url_en: "#about-me"
+    url_zh: "#about-me"
+
+  - title: "Contact"
+    url: "#contact"
+    url_en: "#contact"
+    url_zh: "#contact"
+
+  - title: "Work Experience"
+    url: "#experience"
+    url_en: "#experience"
+    url_zh: "#experience"
+
+  - title: "Educations"
+    url: "#educations"
+    url_en: "#educations"
+    url_zh: "#educations"
+
+  - title: "Publications"
+    url: "#publications"
+    url_en: "#publications"
+    url_zh: "#publications"
+
+  - title: "Projects"
+    url: "#projects"
+    url_en: "#projects"
+    url_zh: "#projects"
+
+  - title: "Patents"
+    url: "#patents"
+    url_en: "#patents"
+    url_zh: "#patents"
+
+  - title: "Services"
+    url: "#services"
+    url_en: "#services"
+    url_zh: "#services"
+
+  - title: "Awards"
+    url: "#awards"
+    url_en: "#awards"
+    url_zh: "#awards"

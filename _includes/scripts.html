@@ -1,0 +1,231 @@
+<script src="assets/js/main.min.js"></script>
+<script src="assets/js/language-switcher.js"></script>
+
+<!-- 移动端导航修复脚本 -->
+<script>
+// 确保在main.min.js加载后应用我们的修复
+document.addEventListener('DOMContentLoaded', function() {
+  // 等待一段时间确保所有脚本都加载完成
+  setTimeout(function() {
+    // 如果存在updateNav函数，应用我们的修复
+    if (typeof window.updateNav === 'function') {
+      console.log('Applying mobile navigation fix...');
+      
+      // 检测是否为移动设备
+      function isMobile() {
+        return window.innerWidth <= 768;
+      }
+      
+      // 保存原始的updateNav函数
+      var originalUpdateNav = window.updateNav;
+      
+      // 重写updateNav函数
+      window.updateNav = function() {
+        // 移动端特殊处理
+        if (isMobile()) {
+          var $nav = $('#site-nav');
+          var $btn = $('#site-nav button');
+          var $vlinks = $('#site-nav .visible-links');
+          var $hlinks = $('#site-nav .hidden-links');
+          
+          if ($btn.length && $hlinks.length) {
+            // 先让原始的greedy navigation逻辑运行
+            var availableSpace = $nav.width() - $btn.width() - 30;
+            
+            // 检查visible-links是否溢出
+            if($vlinks.width() > availableSpace) {
+              // 显示按钮
+              if ($btn.hasClass('hidden')) {
+                $btn.removeClass('hidden');
+              }
+            }
+            
+            // 移动端：检查是否有真正的导航项（不是语言切换器）
+            var hasRealNavItems = false;
+            $hlinks.children().each(function() {
+              if (!$(this).hasClass('language-switcher')) {
+                hasRealNavItems = true;
+                return false; // 跳出循环
+              }
+            });
+            
+            // 根据是否有真正的导航项来决定按钮的显示状态
+            if (hasRealNavItems) {
+              // 有导航项时显示按钮，但折叠框保持隐藏状态（直到用户点击）
+              if ($btn.hasClass('hidden')) {
+                $btn.removeClass('hidden');
+              }
+              // 重要：不要自动显示折叠框，保持用户点击前的状态
+              if (!$hlinks.hasClass('hidden') && !$btn.hasClass('close')) {
+                $hlinks.addClass('hidden');
+              }
+            } else {
+              // 没有导航项时隐藏按钮和折叠框
+              if (!$btn.hasClass('hidden')) {
+                $btn.addClass('hidden');
+              }
+              if (!$hlinks.hasClass('hidden')) {
+                $hlinks.addClass('hidden');
+              }
+            }
+            
+            console.log('Mobile navigation fix applied - real nav items:', hasRealNavItems);
+            return;
+          }
+        }
+        
+        // 桌面端使用原始逻辑
+        if (originalUpdateNav) {
+          originalUpdateNav();
+        }
+      };
+      
+      // 立即调用一次修复后的函数
+      window.updateNav();
+      
+      // 初始化移动端状态
+      if (isMobile()) {
+        var $hlinks = $('#site-nav .hidden-links');
+        var $btn = $('#site-nav button');
+        
+        // 强制设置初始状态
+        if ($hlinks.length) {
+          $hlinks.addClass('hidden');
+          $hlinks.css({
+            'display': 'none',
+            'visibility': 'hidden',
+            'opacity': '0',
+            'pointer-events': 'none'
+          });
+        }
+        
+        // 确保按钮没有close状态
+        if ($btn.length && $btn.hasClass('close')) {
+          $btn.removeClass('close');
+        }
+        
+        console.log('Mobile navigation fix initialized - folded state enforced with CSS');
+      }
+      
+      // 添加URL变化监听器，确保在语言切换后正确更新导航
+      let currentUrl = window.location.href;
+      function checkUrlChange() {
+        if (currentUrl !== window.location.href) {
+          currentUrl = window.location.href;
+          console.log('URL changed, updating navigation...');
+          
+          // 延迟更新，确保页面内容已加载
+          setTimeout(() => {
+            window.updateNav();
+            
+            // 重新初始化移动端状态
+            if (isMobile()) {
+              var $hlinks = $('#site-nav .hidden-links');
+              var $btn = $('#site-nav button');
+              
+              if ($hlinks.length && !$btn.hasClass('close')) {
+                $hlinks.addClass('hidden');
+                $hlinks.css({
+                  'display': 'none',
+                  'visibility': 'hidden',
+                  'opacity': '0',
+                  'pointer-events': 'none'
+                });
+              }
+            }
+            
+            // 强制更新所有导航项文本
+            if (typeof window.forceUpdateAllNavigationText === 'function') {
+              window.forceUpdateAllNavigationText();
+            }
+          }, 300);
+        }
+      }
+      
+      // 定期检查URL变化
+      setInterval(checkUrlChange, 100);
+      
+      // 监听浏览器历史变化
+      window.addEventListener('popstate', function() {
+        setTimeout(() => {
+          window.updateNav();
+          
+          // 重新初始化移动端状态
+          if (isMobile()) {
+            var $hlinks = $('#site-nav .hidden-links');
+            var $btn = $('#site-nav button');
+            
+            if ($hlinks.length && !$btn.hasClass('close')) {
+              $hlinks.addClass('hidden');
+              $hlinks.css({
+                'display': 'none',
+                'visibility': 'hidden',
+                'opacity': '0',
+                'pointer-events': 'none'
+              });
+            }
+          }
+          
+          // 强制更新所有导航项文本
+          if (typeof window.forceUpdateAllNavigationText === 'function') {
+            window.forceUpdateAllNavigationText();
+          }
+        }, 100);
+      });
+      
+      // 监听窗口大小变化
+      $(window).on('resize', function() {
+        setTimeout(function() {
+          window.updateNav();
+          
+          // 重新初始化移动端状态
+          if (isMobile()) {
+            var $hlinks = $('#site-nav .hidden-links');
+            var $btn = $('#site-nav button');
+            
+            if ($hlinks.length && !$btn.hasClass('close')) {
+              $hlinks.addClass('hidden');
+              $hlinks.css({
+                'display': 'none',
+                'visibility': 'hidden',
+                'opacity': '0',
+                'pointer-events': 'none'
+              });
+            }
+          }
+        }, 100);
+      });
+      
+      // 监听方向变化
+      $(window).on('orientationchange', function() {
+        setTimeout(function() {
+          window.updateNav();
+          
+          // 重新初始化移动端状态
+          if (isMobile()) {
+            var $hlinks = $('#site-nav .hidden-links');
+            var $btn = $('#site-nav button');
+            
+            if ($hlinks.length && !$btn.hasClass('close')) {
+              $hlinks.addClass('hidden');
+              $hlinks.css({
+                'display': 'none',
+                'visibility': 'hidden',
+                'opacity': '0',
+                'pointer-events': 'none'
+              });
+            }
+          }
+        }, 100);
+      });
+      
+      console.log('Mobile navigation fix successfully applied');
+    } else {
+      console.log('updateNav function not found, using plugin-based fix');
+    }
+  }, 200);
+});
+</script>
+
+{% include analytics.html %}
+{% include fetch_google_scholar_stats.html %}
